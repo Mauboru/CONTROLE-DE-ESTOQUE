@@ -16,12 +16,12 @@
 
             <!-- Card 1 -->
             <div class="col-md-4">
-                <a href="#" class="text-decoration-none">
+                <a href="{{ route('clientes.index') }}" class="text-decoration-none">
                     <div class="card card-hover">
-                        <img src="https://png.pngtree.com/thumb_back/fh260/background/20220217/pngtree-organic-poultry-freerange-chickens-on-a-farm-in-germany-photo-image_35385422.jpg" class="card-img-top custom-img" alt="Smart-Harpia">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmN0sYhMXV6OCpe_vgSIY1Fwm8rJepE6F0-w&s" class="card-img-top custom-img" alt="Smart-Harpia">
                         <div class="card-body text-center">
-                            <h5 class="card-title custom-title">SMART ANILHAS</h5>
-                            <p class="card-text custom-description">Sistema desenvolvido com objetivo de monitorar as aves!</p>
+                            <h5 class="card-title custom-title">Clientes</h5>
+                            <p class="card-text custom-description">Área para gerenciar seus clientes!</p>
                         </div>
                     </div>
                 </a>

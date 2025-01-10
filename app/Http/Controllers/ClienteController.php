@@ -3,63 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Endereco;
 use Illuminate\Http\Request;
 
-class ClienteController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+class ClienteController extends Controller {
+    public function index(Request $request) {
+        $query = Cliente::query();
+
+        if ($request->filled('nome')) {
+            $query->where('nome', 'like', '%' . $request->nome . '%');
+        }
+        $clientes = $query->with('endereco')->paginate(10);
+
+        return view('clientes.index', compact('clientes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    public function store(Request $request) {
+        $request->validate([
+            'nome' => 'required|max:255',
+            'telefone' => 'required|numeric',
+            'cpf' => 'required|digits:11|unique:clientes',
+            'email' => 'required|email|unique:clientes',
+            'cep' => 'required',
+            'rua' => 'required',
+            'numero' => 'required',
+            'bairro' => 'required',
+            'cidade' => 'required',
+            'estado' => 'required',
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $cliente = Cliente::create($request->only(['nome', 'telefone', 'cpf', 'email']));
+        $cliente->endereco()->create($request->only(['cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado']));
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cliente $cliente)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cliente $cliente)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cliente $cliente)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cliente $cliente)
-    {
-        //
+        return redirect()->route('clientes.index')->with('success', 'Cliente cadastrado com sucesso!');
     }
 }
