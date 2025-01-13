@@ -34,16 +34,18 @@
                 <td>{{ $cliente->telefone }}</td>
                 <td>{{ $cliente->cpf }}</td>
                 <td>{{ $cliente->endereco->cep }}</td>
-                <td>
+
                 <!-- Ações -->
-                 5
                 <td>
                     <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditarCliente" data-cliente="{{ json_encode($cliente) }}">
                         Editar
                     </button>
-                    <a href="#" class="btn btn-sm btn-danger">Excluir</a>
-                </td>
-                <a href="#" class="btn btn-sm btn-danger">Excluir</a>
+                    <!-- Botão de Excluir -->
+                    <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" style="display: inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                    </form>
                 </td>
             </tr>
             @endforeach
@@ -67,7 +69,7 @@
                         <!-- Nome -->
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome</label>
-                            <input type="text" class="form-control" name="nome" required>
+                            <input type="text" class="form-control" name="nome" required pattern="[A-Za-z\s]+">
                         </div>
 
                         <!-- Telefone -->
@@ -79,7 +81,7 @@
                         <!-- CPF -->
                         <div class="mb-3">
                             <label for="cpf" class="form-label">CPF</label>
-                            <input type="text" class="form-control cpf-mask" name="cpf" required>
+                            <input type="text" class="form-control cpf-mask" name="cpf" required pattern="\d+">
                         </div>
 
                         <!-- Email -->
@@ -91,7 +93,7 @@
                         <!-- CEP -->
                         <div class="mb-3">
                             <label for="cep" class="form-label">CEP</label>
-                            <input type="text" class="form-control cep-mask" name="cep" id="cep" required>
+                            <input type="text" class="form-control cep-mask" name="cep" id="cep" required pattern="\d{5}-?\d{3}">
                         </div>
 
                         <!-- Rua -->

@@ -13,4 +13,6 @@ Route::get('/home', function () {
 })->name('home');
 
 Route::resource('clientes', ClienteController::class);
+Route::get('/clientes/verify-email', [ClienteController::class, 'verifyEmail']);
+
 Route::resource('produtos', ProdutoController::class);
