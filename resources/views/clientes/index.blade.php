@@ -36,6 +36,7 @@
                 <td>{{ $cliente->endereco->cep }}</td>
                 <td>
                 <!-- Ações -->
+                 5
                 <td>
                     <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditarCliente" data-cliente="{{ json_encode($cliente) }}">
                         Editar
