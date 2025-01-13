@@ -28,18 +28,23 @@
         </thead>
         <tbody>
             @foreach($clientes as $cliente)
-                <tr>
-                    <td>{{ $cliente->nome }}</td>
-                    <td>{{ $cliente->email }}</td>
-                    <td>{{ $cliente->telefone }}</td>
-                    <td>{{ $cliente->cpf }}</td>
-                    <td>{{ $cliente->endereco->cep }}</td>
-                    <td>
-                        <!-- Ações -->
-                        <a href="#" class="btn btn-sm btn-warning">Editar</a>
-                        <a href="#" class="btn btn-sm btn-danger">Excluir</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ $cliente->nome }}</td>
+                <td>{{ $cliente->email }}</td>
+                <td>{{ $cliente->telefone }}</td>
+                <td>{{ $cliente->cpf }}</td>
+                <td>{{ $cliente->endereco->cep }}</td>
+                <td>
+                <!-- Ações -->
+                <td>
+                    <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditarCliente" data-cliente="{{ json_encode($cliente) }}">
+                        Editar
+                    </button>
+                    <a href="#" class="btn btn-sm btn-danger">Excluir</a>
+                </td>
+                <a href="#" class="btn btn-sm btn-danger">Excluir</a>
+                </td>
+            </tr>
             @endforeach
         </tbody>
     </table>
@@ -132,10 +137,97 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal de Edição -->
+    <div class="modal fade" id="modalEditarCliente" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('clientes.update', $cliente->id) }}" method="POST" id="formEditarCliente">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Nome -->
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" name="nome" id="editNome" required>
+                        </div>
+
+                        <!-- Telefone -->
+                        <div class="mb-3">
+                            <label for="telefone" class="form-label">Telefone</label>
+                            <input type="tel" class="form-control" name="telefone" id="editTelefone" required pattern="\d+">
+                        </div>
+
+                        <!-- CPF -->
+                        <div class="mb-3">
+                            <label for="cpf" class="form-label">CPF</label>
+                            <input type="text" class="form-control cpf-mask" name="cpf" id="editCpf" required>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" id="editEmail" required>
+                        </div>
+
+                        <!-- CEP -->
+                        <div class="mb-3">
+                            <label for="cep" class="form-label">CEP</label>
+                            <input type="text" class="form-control cep-mask" name="cep" id="editCep" required>
+                        </div>
+
+                        <!-- Rua -->
+                        <div class="mb-3">
+                            <label for="rua" class="form-label">Rua</label>
+                            <input type="text" class="form-control" name="rua" id="editRua" required readonly>
+                        </div>
+
+                        <!-- Bairro -->
+                        <div class="mb-3">
+                            <label for="bairro" class="form-label">Bairro</label>
+                            <input type="text" class="form-control" name="bairro" id="editBairro" required readonly>
+                        </div>
+
+                        <!-- Cidade -->
+                        <div class="mb-3">
+                            <label for="cidade" class="form-label">Cidade</label>
+                            <input type="text" class="form-control" name="cidade" id="editCidade" required readonly>
+                        </div>
+
+                        <!-- Estado -->
+                        <div class="mb-3">
+                            <label for="estado" class="form-label">Estado</label>
+                            <input type="text" class="form-control" name="estado" id="editEstado" required readonly>
+                        </div>
+
+                        <!-- Número -->
+                        <div class="mb-3">
+                            <label for="numero" class="form-label">Número</label>
+                            <input type="text" class="form-control" name="numero" id="editNumero" required>
+                        </div>
+
+                        <!-- Complemento -->
+                        <div class="mb-3">
+                            <label for="complemento" class="form-label">Complemento</label>
+                            <input type="text" class="form-control" name="complemento" id="editComplemento">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-    document.getElementById('cep').addEventListener('blur', async function () {
+    document.getElementById('cep').addEventListener('blur', async function() {
         const cep = this.value.replace(/\D/g, '');
         if (cep.length === 8) {
             try {
@@ -156,6 +248,28 @@
         } else {
             alert('Digite um CEP válido.');
         }
+    });
+
+    document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const cliente = JSON.parse(this.dataset.cliente); // Recebe os dados do cliente no formato JSON
+
+            // Preenche os campos do formulário de edição
+            document.getElementById('editNome').value = cliente.nome;
+            document.getElementById('editTelefone').value = cliente.telefone;
+            document.getElementById('editCpf').value = cliente.cpf;
+            document.getElementById('editEmail').value = cliente.email;
+            document.getElementById('editCep').value = cliente.endereco.cep;
+            document.getElementById('editRua').value = cliente.endereco.rua;
+            document.getElementById('editBairro').value = cliente.endereco.bairro;
+            document.getElementById('editCidade').value = cliente.endereco.cidade;
+            document.getElementById('editEstado').value = cliente.endereco.estado;
+            document.getElementById('editNumero').value = cliente.endereco.numero;
+            document.getElementById('editComplemento').value = cliente.endereco.complemento;
+
+            // Atualiza a ação do formulário para o cliente correto
+            document.getElementById('formEditarCliente').action = `/clientes/${cliente.id}`;
+        });
     });
 </script>
 
