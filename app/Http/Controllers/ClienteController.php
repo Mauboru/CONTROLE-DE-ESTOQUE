@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
-use App\Models\Endereco;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClienteController extends Controller {
     public function index(Request $request) {
@@ -32,10 +32,19 @@ class ClienteController extends Controller {
             'estado' => 'required',
         ]);
 
-        $cliente = Cliente::create($request->only(['nome', 'telefone', 'cpf', 'email']));
-        $cliente->endereco()->create($request->only(['cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado']));
+        DB::beginTransaction();
 
-        return redirect()->route('clientes.index')->with('success', 'Cliente cadastrado com sucesso!');
+        try {
+            $cliente = Cliente::create($request->only(['nome', 'telefone', 'cpf', 'email']));
+            $cliente->endereco()->create($request->only(['cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado']));
+
+            DB::commit();
+
+            return redirect()->route('clientes.index')->with('success', 'Cliente cadastrado com sucesso!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('clientes.index')->with('error', 'Erro ao cadastrar cliente: ' . $e->getMessage());
+        }
     }
 
     public function update(Request $request, $id) {
@@ -54,10 +63,19 @@ class ClienteController extends Controller {
             'estado' => 'required',
         ]);
 
-        $cliente->update($request->only(['nome', 'telefone', 'cpf', 'email']));
-        $cliente->endereco->update($request->only(['cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado']));
+        DB::beginTransaction();
 
-        return redirect()->route('clientes.index')->with('success', 'Cliente atualizado com sucesso!');
+        try {
+            $cliente->update($request->only(['nome', 'telefone', 'cpf', 'email']));
+            $cliente->endereco->update($request->only(['cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado']));
+
+            DB::commit();
+
+            return redirect()->route('clientes.index')->with('success', 'Cliente atualizado com sucesso!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('clientes.index')->with('error', 'Erro ao atualizar cliente: ' . $e->getMessage());
+        }
     }
 
     public function destroy($id) {

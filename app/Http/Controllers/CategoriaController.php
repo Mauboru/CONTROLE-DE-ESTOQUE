@@ -4,62 +4,84 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class CategoriaController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+class CategoriaController extends Controller {
+    public function index(Request $request) {
+        $query = Categoria::query();
+
+        if ($request->filled('nome')) {
+            $query->where('nome', 'like', '%' . $request->nome . '%');
+        }
+        $categorias = $query->with('endereco')->paginate(10);
+
+        return view('categorias.index', compact('categorias'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function store(Request $request) {
+        $request->validate([
+            'nome' => 'required|max:255',
+            'telefone' => 'required|numeric',
+            'cpf' => 'required|digits:11|unique:categorias',
+            'email' => 'required|email|unique:categorias',
+            'cep' => 'required',
+            'rua' => 'required',
+            'numero' => 'required',
+            'bairro' => 'required',
+            'cidade' => 'required',
+            'estado' => 'required',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $categoria = Categoria::create($request->only(['nome', 'telefone', 'cpf', 'email']));
+            $categoria->endereco()->create($request->only(['cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado']));
+
+            DB::commit();
+
+            return redirect()->route('categorias.index')->with('success', 'Categoria cadastrado com sucesso!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('categorias.index')->with('error', 'Erro ao cadastrar categoria: ' . $e->getMessage());
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function update(Request $request, $id) {
+        $categoria = Categoria::findOrFail($id);
+
+        $request->validate([
+            'nome' => 'required|max:255',
+            'telefone' => 'required|numeric',
+            'cpf' => 'required|digits:11|unique:categorias,cpf,' . $categoria->id,
+            'email' => 'required|email|unique:categorias,email,' . $categoria->id,
+            'cep' => 'required',
+            'rua' => 'required',
+            'numero' => 'required',
+            'bairro' => 'required',
+            'cidade' => 'required',
+            'estado' => 'required',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $categoria->update($request->only(['nome', 'telefone', 'cpf', 'email']));
+            $categoria->endereco->update($request->only(['cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado']));
+
+            DB::commit();
+
+            return redirect()->route('categorias.index')->with('success', 'Categoria atualizado com sucesso!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('categorias.index')->with('error', 'Erro ao atualizar categoria: ' . $e->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Categoria $categoria)
-    {
-        //
-    }
+    public function destroy($id) {
+        $categoria = Categoria::findOrFail($id);
+        $categoria->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Categoria $categoria)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Categoria $categoria)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Categoria $categoria)
-    {
-        //
+        return redirect()->route('categorias.index')->with('success', 'Categoria excluído com sucesso!');
     }
 }

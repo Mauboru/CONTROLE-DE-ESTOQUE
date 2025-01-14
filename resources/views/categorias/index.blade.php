@@ -3,7 +3,7 @@
 @section('conteudo')
 
 <div class="container">
-    <h2 style="display: inline-block;">Clientes</h2>
+    <h2 style="display: inline-block;">Categorias</h2>
     <!-- Botão de Cadastro -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastroCliente" style="display: inline-block; margin-left: 10px;margin-down: 10px;">
         <i class="bi bi-plus"></i>
