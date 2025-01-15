@@ -29,7 +29,7 @@
 
         <!-- Card 2 -->
         <div class="col-md-4">
-            <a href="#" class="text-decoration-none">
+            <a href="{{ route('categorias.index') }}" class="text-decoration-none">
                 <div class="card card-hover">
                     <img src="https://static6.depositphotos.com/1112859/621/i/450/depositphotos_6219942-stock-photo-search-of-data-isolated-3d.jpg" class="card-img-top custom-img" alt="Smart-Harpia">
                     <div class="card-body text-center">
