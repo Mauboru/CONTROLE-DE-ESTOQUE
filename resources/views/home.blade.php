@@ -42,12 +42,12 @@
 
         <!-- Card 3 -->
         <div class="col-md-4">
-            <a href="#" class="text-decoration-none">
+            <a href="{{ route('unidades.index') }}" class="text-decoration-none">
                 <div class="card card-hover">
-                    <img src="https://www.fao.org/images/nationalforestmonitoringlibraries/default-album/fao_25023_0034.jpg?sfvrsn=7fcb66fb_11" class="card-img-top custom-img" alt="Smart-Harpia">
+                    <img src="https://media.istockphoto.com/id/1222200861/pt/foto/house-renovation-unrecognizable-repairman-holding-tape-measure-on-blue-background-closeup.jpg?s=612x612&w=0&k=20&c=clXGXowqnZZdGGYU1yqX7sM9b5rgkAl_WSSHF9w51JA=" class="card-img-top custom-img" alt="Smart-Harpia">
                     <div class="card-body text-center">
-                        <h5 class="card-title custom-title">MAC ADDRESS</h5>
-                        <p class="card-text custom-description">Tem como objetivo a monitoração de entradas não autorizadas em regiões ambientais preservadas!</p>
+                        <h5 class="card-title custom-title">Unidade de Medida</h5>
+                        <p class="card-text custom-description">Área para gereciar suas unidades de medidas!</p>
                     </div>
                 </div>
             </a>

@@ -22,8 +22,8 @@ class ProdutoController extends Controller {
         $qrcode = QrCode::size(300)->generate($produto->nome);
         return view('produtos.qrcode', compact('qrcode'));
     }
-    
-    public function exportar() {
-        return Excel::download(new ProdutosExport, 'produtos.xlsx');
-    }
+
+    // public function exportar() {
+    //     return Excel::download(new ProdutosExport, 'produtos.xlsx');
+    // }
 }
