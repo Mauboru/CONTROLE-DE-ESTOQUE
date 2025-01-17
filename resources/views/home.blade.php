@@ -52,6 +52,19 @@
                 </div>
             </a>
         </div>
+
+        <!-- Card 4 -->
+        <div class="col-md-4">
+            <a href="{{ route('produtos.index') }}" class="text-decoration-none">
+                <div class="card card-hover">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYLZEMx_c8gzUmXmzeFRWW1Sac_5D6TTULmA&s" class="card-img-top custom-img" alt="Smart-Harpia">
+                    <div class="card-body text-center">
+                        <h5 class="card-title custom-title">Produtos</h5>
+                        <p class="card-text custom-description">Área para gereciar produtos!</p>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
 
