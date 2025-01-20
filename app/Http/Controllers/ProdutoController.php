@@ -14,7 +14,9 @@ class ProdutoController extends Controller {
     public function index(Request $request)
     {
         $produtos = Produto::all();
-        return view('produtos.index', compact('produtos'));
+        $categorias = Categoria::all();
+        $unidades = Unidade::all();
+        return view('produtos.index', compact('produtos', 'categorias', 'unidades'));
     }
 
     public function store(Request $request)
@@ -22,7 +24,7 @@ class ProdutoController extends Controller {
         $request->validate([
             'nome' => 'required|string|max:255',
             'categoria_id' => 'required|exists:categorias,id',
-            'unidade_de_medida_id' => 'required|exists:unidades_de_medida,id',
+            'unidade_de_medida_id' => 'required|exists:unidades,id',
             'imagem' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'quantidade' => 'required|integer',
             'estoque' => 'required|integer',
@@ -39,6 +41,8 @@ class ProdutoController extends Controller {
         $produto->descricao = $request->descricao;
         $produto->valor_unitario = $request->valor_unitario;
 
+        $produto->caminho = 'produtos/' . uniqid() . '.jpg';
+
         if ($request->hasFile('imagem')) {
             $produto->salvarImagem($request->file('imagem'));
         }
@@ -53,7 +57,7 @@ class ProdutoController extends Controller {
         $request->validate([
             'nome' => 'required|string|max:255',
             'categoria_id' => 'required|exists:categorias,id',
-            'unidade_de_medida_id' => 'required|exists:unidades_de_medida,id',
+            'unidade_de_medida_id' => 'required|exists:unidades,id',
             'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'quantidade' => 'required|integer',
             'estoque' => 'required|integer',

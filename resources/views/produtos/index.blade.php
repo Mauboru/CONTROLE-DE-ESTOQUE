@@ -28,7 +28,7 @@
             <tr>
                 <td>{{ $produto->nome }}</td>
                 <td>{{ $produto->categoria->nome }}</td>
-                <td>{{ $produto->unidadeDeMedida->nome }}</td>
+                <td>{{ $produto->unidade->abreviatura }}</td>
                 <td>R$ {{ number_format($produto->valor_unitario, 2, ',', '.') }}</td>
                 <td>{{ $produto->estoque }}</td>
                 <td>
@@ -57,6 +57,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
+                        <!-- Campos do Formulário -->
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome</label>
                             <input type="text" class="form-control" name="nome" required>
@@ -64,15 +65,19 @@
 
                         <div class="mb-3">
                             <label for="categoria_id" class="form-label">Categoria</label>
-                            <select name="categoria_id" class="form-control" >
-
+                            <select name="categoria_id" class="form-control">
+                                @foreach($categorias as $categoria)
+                                <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
+                                @endforeach
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label for="unidade_de_medida_id" class="form-label">Unidade de Medida</label>
-                            <select name="unidade_de_medida_id" class="form-control" >
-
+                            <select name="unidade_de_medida_id" class="form-control">
+                                @foreach($unidades as $unidade)
+                                <option value="{{ $unidade->id }}">{{ $unidade->abreviatura }}</option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -122,6 +127,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
+                        <!-- Campos do Formulário -->
                         <div class="mb-3">
                             <label for="editNome" class="form-label">Nome</label>
                             <input type="text" class="form-control" name="nome" id="editNome" required>
@@ -129,15 +135,19 @@
 
                         <div class="mb-3">
                             <label for="editCategoria" class="form-label">Categoria</label>
-                            <select name="categoria_id" class="form-control" id="editCategoria" >
-
+                            <select name="categoria_id" class="form-control" id="editCategoria">
+                                @foreach($categorias as $categoria)
+                                <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
+                                @endforeach
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label for="editUnidade" class="form-label">Unidade de Medida</label>
-                            <select name="unidade_de_medida_id" class="form-control" id="editUnidade" >
-
+                            <select name="unidade_de_medida_id" class="form-control" id="editUnidade">
+                                @foreach($unidades as $unidade)
+                                <option value="{{ $unidade->id }}">{{ $unidade->abreviatura }}</option>
+                                @endforeach
                             </select>
                         </div>
 

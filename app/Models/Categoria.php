@@ -8,4 +8,9 @@ class Categoria extends Model {
     protected $fillable = ['nome', 'descricao'];
 
     public $timestamps = true;
+
+    public function produto()
+    {
+        return $this->belongsTo(Produto::class);
+    }
 }

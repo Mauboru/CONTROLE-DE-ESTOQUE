@@ -10,4 +10,9 @@ class Unidade extends Model
         'abreviatura',
         'descricao'
     ];
+
+    public function produto()
+    {
+        return $this->belongsTo(Produto::class);
+    }
 }

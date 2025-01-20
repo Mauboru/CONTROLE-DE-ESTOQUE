@@ -13,8 +13,8 @@ class CreateProdutosTable extends Migration
             $table->string('caminho');
             $table->string('imagem')->nullable();
             $table->string('nome');
-            $table->integer('unidade_de_medida_id');
-            $table->integer('categoria_id');
+            $table->foreignId('unidade_de_medida_id')->constrained('unidades')->onDelete('cascade');;
+            $table->foreignId('categoria_id')->constrained('categorias')->onDelete('cascade');;
             $table->integer('quantidade');
             $table->integer('estoque');
             $table->text('descricao');

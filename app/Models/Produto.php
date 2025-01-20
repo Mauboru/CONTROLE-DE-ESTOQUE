@@ -19,4 +19,22 @@ class Produto extends Model
         'descricao',
         'valor_unitario',
     ];
+
+    public function unidade()
+    {
+        return $this->belongsTo(Unidade::class, 'unidade_de_medida_id');
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'categoria_id');
+    }
+
+    public function salvarImagem($imagem)
+    {
+        if ($imagem) {
+            $caminhoImagem = $imagem->store('produtos', 'public');
+            $this->imagem = $caminhoImagem;
+        }
+    }
 }
