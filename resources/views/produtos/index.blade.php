@@ -4,7 +4,7 @@
 
 <div class="container">
     <h2 style="display: inline-block;">Produtos</h2>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastroProduto" style="display: inline-block; margin-left: 10px;margin-down: 10px;">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastroProduto" style="display: inline-block; margin-left: 10px;">
         <i class="bi bi-plus"></i> +
     </button>
 
@@ -15,6 +15,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th>Imagem</th>
                 <th>Nome</th>
                 <th>Categoria</th>
                 <th>Unidade de Medida</th>
@@ -26,13 +27,14 @@
         <tbody>
             @foreach($produtos as $produto)
             <tr>
+                <td><img src="{{ asset('storage/' . $produto->imagem) }}" alt="{{ $produto->nome }}" width="50" height="50"></td>
                 <td>{{ $produto->nome }}</td>
                 <td>{{ $produto->categoria->nome }}</td>
                 <td>{{ $produto->unidade->abreviatura }}</td>
                 <td>R$ {{ number_format($produto->valor_unitario, 2, ',', '.') }}</td>
                 <td>{{ $produto->estoque }}</td>
                 <td>
-                    <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditarProduto" data-produto="{{ json_encode($produto) }}">
+                    <button class=" btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditarProduto" data-produto="{{ json_encode($produto) }}">
                         Editar
                     </button>
                     <form action="{{ route('produtos.destroy', $produto->id) }}" method="POST" style="display: inline;">
@@ -152,6 +154,12 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="editImagem" class="form-label">Imagem</label>
+                            <img id="imagemAtual" src="" alt="Imagem atual" width="100" height="100" class="mb-2" />
+                            <input type="file" class="form-control" name="imagem" id="editImagem">
+                        </div>
+
+                        <div class="mb-3">
                             <label for="editQuantidade" class="form-label">Quantidade</label>
                             <input type="number" class="form-control" name="quantidade" id="editQuantidade" required>
                         </div>
@@ -193,6 +201,9 @@
             document.getElementById('editEstoque').value = produto.estoque;
             document.getElementById('editDescricao').value = produto.descricao;
             document.getElementById('editValorUnitario').value = produto.valor_unitario;
+
+            const imagemUrl = produto.imagem ? `/storage/${produto.imagem}` : '/path/to/default/image.png';
+            document.getElementById('imagemAtual').src = imagemUrl;
 
             document.getElementById('formEditarProduto').action = `/produtos/${produto.id}`;
         });
