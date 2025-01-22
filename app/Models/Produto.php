@@ -30,6 +30,11 @@ class Produto extends Model
         return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 
+    public function movimentacoes()
+    {
+        return $this->hasMany(MovimentacaoEstoque::class);
+    }
+
     public function salvarImagem($imagem)
     {
         if ($imagem) {

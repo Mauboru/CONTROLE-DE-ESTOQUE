@@ -4,8 +4,12 @@
 
 <div class="container">
     <h2 style="display: inline-block;">Produtos</h2>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastroProduto" style="display: inline-block; margin-left: 10px;">
-        <i class="bi bi-plus"></i> +
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCadastroProduto" style="display: inline-block; margin-left: 10px;">
+        +
+    </button>
+
+    <button type="button" class="btn btn-primary" style="display: inline-block; margin-left: 10px;" onclick="window.location.href='{{ route('gerarRelatorio') }}'">
+        Gerar Relatório
     </button>
 
     <form method="GET" class="mb-3">

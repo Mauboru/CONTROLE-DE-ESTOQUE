@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Produto;
 use App\Models\Categoria;
 use App\Models\Unidade;
+use App\Models\MovimentacaoEstoque;
 use Illuminate\Http\Request;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProdutosExport;
 
@@ -89,5 +89,10 @@ class ProdutoController extends Controller {
         $produto->delete();
 
         return redirect()->route('produtos.index')->with('success', 'Produto excluído com sucesso.');
+    }
+
+    public function gerarRelatorio()
+    {
+        return Excel::download(new ProdutosExport, 'produtos.xlsx');
     }
 }
