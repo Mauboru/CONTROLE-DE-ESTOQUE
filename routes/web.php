@@ -24,3 +24,4 @@ Route::resource('unidades', UnidadeController::class);
 Route::resource('produtos', ProdutoController::class);
 
 Route::get('gerarRelatorio', [ProdutoController::class, 'gerarRelatorio'])->name('gerarRelatorio');
+Route::post('darBaixaNoEstoque/{id}', [ProdutoController::class, 'darBaixaNoEstoque'])->name('darBaixaNoEstoque');

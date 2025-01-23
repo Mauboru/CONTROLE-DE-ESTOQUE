@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('produto_id')->constrained()->onDelete('cascade');
             $table->integer('quantidade');
-            $table->enum('tipo', ['entrada', 'saida']);
+            $table->string('tipo');
             $table->timestamp('data')->useCurrent();
             $table->text('observacao')->nullable();
             $table->timestamps();

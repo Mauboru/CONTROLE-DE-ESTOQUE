@@ -9,6 +9,7 @@ use App\Models\MovimentacaoEstoque;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProdutosExport;
+use Carbon\Carbon;
 
 class ProdutoController extends Controller {
     public function index(Request $request)
@@ -94,5 +95,30 @@ class ProdutoController extends Controller {
     public function gerarRelatorio()
     {
         return Excel::download(new ProdutosExport, 'produtos.xlsx');
+    }
+
+    public function darBaixaNoEstoque(Request $request, $id)
+    {
+        $request->validate([
+            'quantidade' => 'required|integer|min:1',
+            'motivo' => 'required|string|max:255',
+        ]);
+
+        $produto = Produto::findOrFail($id);
+
+        if ($produto->estoque < $request->quantidade) {
+            return redirect()->route('produtos.index')->with('error', 'Estoque insuficiente para dar baixa.');
+        }
+
+        $produto->estoque -= $request->quantidade;
+        $produto->save();
+
+        MovimentacaoEstoque::create([
+            'produto_id' => $produto->id,
+            'quantidade' => -$request->quantidade,
+            'tipo' => $request->motivo,
+        ]);
+
+        return redirect()->route('produtos.index')->with('success', 'Baixa no estoque realizada com sucesso.');
     }
 }

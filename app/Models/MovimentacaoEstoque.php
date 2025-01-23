@@ -13,7 +13,6 @@ class MovimentacaoEstoque extends Model
         'produto_id',
         'quantidade',
         'tipo',
-        'observacao',
     ];
 
     public function produto()
