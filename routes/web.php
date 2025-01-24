@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\UnidadeController;
+use App\Http\Controllers\VendaController;
 use Illuminate\Support\Facades\Route;
 use App\Exports\ProdutosExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -22,6 +23,4 @@ Route::get('/clientes/verify-email', [ClienteController::class, 'verifyEmail']);
 Route::resource('categorias', CategoriaController::class);
 Route::resource('unidades', UnidadeController::class);
 Route::resource('produtos', ProdutoController::class);
-
-Route::get('gerarRelatorio', [ProdutoController::class, 'gerarRelatorio'])->name('gerarRelatorio');
-Route::post('darBaixaNoEstoque/{id}', [ProdutoController::class, 'darBaixaNoEstoque'])->name('darBaixaNoEstoque');
+Route::resource('vendas', VendaController::class);

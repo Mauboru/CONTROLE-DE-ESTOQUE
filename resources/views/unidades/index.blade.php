@@ -4,7 +4,7 @@
 
 <div class="container">
     <h2 style="display: inline-block;">Unidades</h2>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastroUnidade" style="display: inline-block; margin-left: 10px; margin-down: 10px;">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastroUnidade" style="display: inline-block; margin-left: 10px;">
         <i class="bi bi-plus"></i>
         +
     </button>

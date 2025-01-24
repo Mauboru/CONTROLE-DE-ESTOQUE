@@ -65,6 +65,19 @@
                 </div>
             </a>
         </div>
+
+        <!-- Card 4 -->
+        <div class="col-md-4">
+            <a href="{{ route('vendas.index') }}" class="text-decoration-none">
+                <div class="card card-hover">
+                    <img src="https://cdn-icons-png.flaticon.com/512/6203/6203085.png" class="card-img-top custom-img" alt="Vendas">
+                    <div class="card-body text-center">
+                        <h5 class="card-title custom-title">Vendas</h5>
+                        <p class="card-text custom-description">Área para compras!</p>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
 

@@ -8,10 +8,6 @@
         +
     </button>
 
-    <button type="button" class="btn btn-primary" style="display: inline-block; margin-left: 10px;" onclick="window.location.href='{{ route('gerarRelatorio') }}'">
-        Gerar Relatório
-    </button>
-
     <form method="GET" class="mb-3">
         <input type="text" name="nome" value="{{ request('nome') }}" class="form-control" placeholder="Buscar por nome">
     </form>
@@ -41,12 +37,6 @@
                     <button class=" btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditarProduto" data-produto="{{ json_encode($produto) }}">
                         Editar
                     </button>
-                    <form action="{{ route('darBaixaNoEstoque', $produto->id) }}" method="POST">
-                        @csrf
-                        <input type="number" name="quantidade" placeholder="Quantidade">
-                        <input type="text" name="motivo" placeholder="Motivo">
-                        <button type="submit" class="btn btn-sm btn-info">Baixa</button>
-                    </form>
                     <form action="{{ route('produtos.destroy', $produto->id) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')

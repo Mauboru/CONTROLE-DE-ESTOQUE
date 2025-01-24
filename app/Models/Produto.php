@@ -30,11 +30,6 @@ class Produto extends Model
         return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 
-    public function movimentacoes()
-    {
-        return $this->hasMany(MovimentacaoEstoque::class);
-    }
-
     public function salvarImagem($imagem)
     {
         if ($imagem) {
@@ -42,4 +37,12 @@ class Produto extends Model
             $this->imagem = $caminhoImagem;
         }
     }
+
+    public function vendas()
+    {
+        return $this->belongsToMany(Venda::class, 'produto_venda', 'produto_id', 'venda_id')
+            ->withPivot('quantidade', 'valor_unitario', 'valor_total')
+            ->withTimestamps();
+    }
+
 }
