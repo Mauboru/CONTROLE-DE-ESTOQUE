@@ -19,6 +19,7 @@ class VendaController extends Controller
 
         return view('venda.index', compact('vendas', 'clientes', 'produtos'));
     }
+
     public function store(Request $request)
     {
         DB::beginTransaction();
@@ -59,6 +60,20 @@ class VendaController extends Controller
 
             $venda->save();
 
+            $qrData = [
+                'Venda ID' => $venda->id,
+                'Cliente' => $venda->cliente->nome,
+                'Data' => $venda->data_venda,
+                'Valor Total' => 'R$ ' . number_format($venda->valor_total, 2, ',', '.'),
+                'Produtos' => $venda->produtos->map(function ($produto) {
+                    return $produto->nome . ' (Qtd: ' . $produto->pivot->quantidade . ')';
+                })->join(', '), 
+            ];
+
+            $qrCodePath = 'qr_codes/venda_' . $venda->id . '.svg';
+            QrCode::size(200)->format('svg')->generate(json_encode($qrData), public_path($qrCodePath));
+            session()->flash('qrCodePath', $qrCodePath);
+
             DB::commit();
 
             return redirect()->route('vendas.index')->with('success', 'Venda registrada com sucesso!');
@@ -67,6 +82,7 @@ class VendaController extends Controller
             return redirect()->route('vendas.index')->with('error', 'Erro ao registrar a venda: ' . $e->getMessage());
         }
     }
+
 
     public function destroy($id)
     {

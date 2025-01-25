@@ -16,6 +16,12 @@
                 </div>
                 <div class="modal-body">
                     {{ session('success') }}
+                    @if(session('qrCodePath'))
+                    <div class="mt-3">
+                        <h4>QR Code da Venda</h4>
+                        <img src="{{ asset(session('qrCodePath')) }}" alt="QR Code" />
+                    </div>
+                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -47,7 +53,6 @@
 
     <form action="{{ route('vendas.store') }}" method="POST">
         @csrf
-
         <!-- Selecionar Cliente -->
         <div class="form-group">
             <label for="cliente_id">Cliente</label>
@@ -67,7 +72,7 @@
                 <select name="produtos[0][id]" class="form-control" required>
                     <option value="">Selecione o Produto</option>
                     @foreach($produtos as $produto)
-                    <option value="{{ $produto->id }}">{{ $produto->nome }} - R$ {{ number_format($produto->preco, 2, ',', '.') }}</option>
+                    <option value="{{ $produto->id }}">{{ $produto->nome }} - R$ {{ number_format($produto->valor_unitario, 2, ',', '.') }}</option>
                     @endforeach
                 </select>
 
@@ -118,7 +123,6 @@
 </div>
 
 <script>
-    // Mostrar a modal de sucesso ou erro automaticamente
     @if(session('success'))
     var myModalSuccess = new bootstrap.Modal(document.getElementById('modalSuccess'), {});
     myModalSuccess.show();
@@ -126,6 +130,7 @@
     var myModalError = new bootstrap.Modal(document.getElementById('modalError'), {});
     myModalError.show();
     @endif
+
 
     document.getElementById('add-produto').addEventListener('click', function() {
         const produtosDiv = document.getElementById('produtos');

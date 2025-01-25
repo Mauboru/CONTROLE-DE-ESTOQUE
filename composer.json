@@ -10,7 +10,7 @@
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1",
-        "simplesoftwareio/simple-qrcode": "^4.2"
+        "simplesoftwareio/simple-qrcode": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
