@@ -67,7 +67,7 @@ class VendaController extends Controller
                 'Valor Total' => 'R$ ' . number_format($venda->valor_total, 2, ',', '.'),
                 'Produtos' => $venda->produtos->map(function ($produto) {
                     return $produto->nome . ' (Qtd: ' . $produto->pivot->quantidade . ')';
-                })->join(', '), 
+                })->join(', '),
             ];
 
             $qrCodePath = 'qr_codes/venda_' . $venda->id . '.svg';
@@ -83,7 +83,6 @@ class VendaController extends Controller
         }
     }
 
-
     public function destroy($id)
     {
         DB::beginTransaction();
@@ -98,5 +97,21 @@ class VendaController extends Controller
             DB::rollBack();
             return redirect()->route('vendas.index')->with('error', 'Erro ao excluir a venda: ' . $e->getMessage());
         }
+    }
+
+    public function detalhes($id)
+    {
+        $venda = Venda::with('cliente', 'produtos')->findOrFail($id);
+
+        $produtos = $venda->produtos->map(function ($produto) {
+            return $produto->nome . ' (Qtd: ' . $produto->pivot->quantidade . ')';
+        })->join(', ');
+
+        return response()->json([
+            'cliente' => $venda->cliente->nome,
+            'data_venda' => $venda->data_venda,
+            'valor_total' => 'R$ ' . number_format($venda->valor_total, 2, ',', '.'),
+            'produtos' => $produtos,
+        ]);
     }
 }

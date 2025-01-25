@@ -51,6 +51,29 @@
     </div>
     @endif
 
+    <!-- Modal de Detalhes da Venda -->
+    <div class="modal fade" id="modalDetalhes" tabindex="-1" aria-labelledby="modalDetalhesLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDetalhesLabel">Detalhes da Venda</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="venda-detalhes">
+                    </div>
+                    <div class="mt-3" id="qr-code-container">
+                        <h5>QR Code da Venda</h5>
+                        <img src="" id="qr-code" alt="QR Code" style="width: 200px;" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <form action="{{ route('vendas.store') }}" method="POST">
         @csrf
         <!-- Selecionar Cliente -->
@@ -105,13 +128,18 @@
                 <td>{{ $venda->data_venda }}</td>
                 <td>R$ {{ number_format($venda->valor_total, 2, ',', '.') }}</td>
                 <td>
-                    <a href="#" class="btn btn-info btn-sm">Detalhes</a>
+                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalDetalhes"
+                        data-venda-id="{{ $venda->id }}"
+                        data-qrcode-path="{{ asset('qr_codes/venda_' . $venda->id . '.svg') }}">
+                        Detalhes
+                    </button>
                     <form action="{{ route('vendas.destroy', $venda->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
                     </form>
                 </td>
+
             </tr>
             @endforeach
         </tbody>
@@ -131,7 +159,6 @@
     myModalError.show();
     @endif
 
-
     document.getElementById('add-produto').addEventListener('click', function() {
         const produtosDiv = document.getElementById('produtos');
         const index = produtosDiv.children.length;
@@ -150,6 +177,31 @@
             <input type="number" name="produtos[${index}][quantidade]" class="form-control" required min="1" value="1">
         `;
         produtosDiv.appendChild(newProdutoDiv);
+    });
+
+    document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#modalDetalhes"]').forEach(button => {
+        button.addEventListener('click', function(event) {
+            const vendaId = event.currentTarget.getAttribute('data-venda-id');
+            const qrCodePath = event.currentTarget.getAttribute('data-qrcode-path');
+
+            // Atualizar o conteúdo da modal com as informações da venda
+            fetch(`/vendas/${vendaId}/detalhes`) // Ajuste a rota de acordo com sua necessidade
+                .then(response => response.json())
+                .then(data => {
+                    const detalhesContainer = document.getElementById('venda-detalhes');
+                    detalhesContainer.innerHTML = `
+                    <p><strong>Cliente:</strong> ${data.cliente}</p>
+                    <p><strong>Data da Venda:</strong> ${data.data_venda}</p>
+                    <p><strong>Valor Total:</strong> ${data.valor_total}</p>
+                    <p><strong>Produtos:</strong> ${data.produtos}</p>
+                `;
+                })
+                .catch(error => console.error('Erro ao carregar detalhes:', error));
+
+            // Atualizar o QR Code na modal
+            const qrCodeImage = document.getElementById('qr-code');
+            qrCodeImage.src = qrCodePath; // Definindo o caminho do QR Code na tag <img>
+        });
     });
 </script>
 

@@ -6,8 +6,6 @@ use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\VendaController;
 use Illuminate\Support\Facades\Route;
-use App\Exports\ProdutosExport;
-use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('/', function () {
     return view('main');
@@ -24,3 +22,5 @@ Route::resource('categorias', CategoriaController::class);
 Route::resource('unidades', UnidadeController::class);
 Route::resource('produtos', ProdutoController::class);
 Route::resource('vendas', VendaController::class);
+
+Route::get('/vendas/{id}/detalhes', [VendaController::class, 'detalhes'])->name('vendas.detalhes');
