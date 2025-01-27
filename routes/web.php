@@ -5,6 +5,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\VendaController;
+use App\Http\Controllers\RelatorioController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,3 +25,4 @@ Route::resource('produtos', ProdutoController::class);
 Route::resource('vendas', VendaController::class);
 
 Route::get('/vendas/{id}/detalhes', [VendaController::class, 'detalhes'])->name('vendas.detalhes');
+Route::get('/relatorios', [VendaController::class, 'relatorios'])->name('relatorios');

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Venda extends Model
 {
+    protected $dates = ['data_venda'];
+    
     protected $fillable = [
         'cliente_id',
         'data_venda',

@@ -114,4 +114,79 @@ class VendaController extends Controller
             'produtos' => $produtos,
         ]);
     }
+
+    public function relatorios(Request $request)
+    {
+        $tipoRelatorio = $request->input('tipo_relatorio');
+        $periodo = $request->input('periodo');
+        $cliente = $request->input('cliente_id');
+
+        switch ($tipoRelatorio) {
+            case 'retiradas_periodo':
+                return $this->relatorioRetiradasPorPeriodo($periodo);
+            case 'retiradas_cliente':
+                return $this->relatorioRetiradasPorCliente($cliente);
+            case 'produtos_sem_estoque':
+                return $this->relatorioProdutosSemEstoque();
+            case 'produtos_com_estoque':
+                return $this->relatorioProdutosComEstoque();
+            default:
+                return redirect()->back()->with('error', 'Tipo de relatório inválido.');
+        }
+    }
+
+    private function relatorioRetiradasPorPeriodo($periodo)
+    {
+        $dataInicio = $this->getDataInicioPorPeriodo($periodo);
+
+        $vendas = Venda::where('data_venda', '>=', $dataInicio)
+            ->with('cliente', 'produtos')
+            ->get();
+
+        return view('relatorios.retiradas_por_periodo', compact('vendas'));
+    }
+
+    private function getDataInicioPorPeriodo($periodo)
+    {
+        switch ($periodo) {
+            case 'diario':
+                return now()->startOfDay();
+            case 'semanal':
+                return now()->startOfWeek();
+            case 'mensal':
+                return now()->startOfMonth();
+            default:
+                return now()->startOfDay();
+        }
+    }
+
+    private function relatorioRetiradasPorCliente($clienteId)
+    {
+        $query = Venda::with('cliente', 'produtos');
+
+        if ($clienteId) {
+            $query->where('cliente_id', $clienteId);
+            $clientes = Cliente::where('id', $clienteId)->get();
+        } else {
+            $clientes = Cliente::all();
+        }
+
+        $vendas = $query->get();
+
+        return view('relatorios.retiradas_por_cliente', compact('vendas', 'clientes'));
+    }
+
+    private function relatorioProdutosSemEstoque()
+    {
+        $produtos = Produto::where('estoque', 0)->get();
+
+        return view('relatorios.produtos_sem_estoque', compact('produtos'));
+    }
+
+    private function relatorioProdutosComEstoque()
+    {
+        $produtos = Produto::where('estoque', '>', 0)->get();
+
+        return view('relatorios.produtos_com_estoque', compact('produtos'));
+    }
 }

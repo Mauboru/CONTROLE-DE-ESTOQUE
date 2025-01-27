@@ -111,6 +111,38 @@
         <button type="submit" class="btn btn-primary">Finalizar Venda</button>
     </form>
 
+    <h3>Relatórios</h3>
+    <form action="{{ route('relatorios') }}" method="GET">
+        <div class="form-group">
+            <label for="tipo_relatorio">Tipo de Relatório</label>
+            <select name="tipo_relatorio" id="tipo_relatorio" class="form-control" required>
+                <option value="retiradas_periodo">Retiradas por Período</option>
+                <option value="retiradas_cliente">Retiradas por Cliente</option>
+                <option value="produtos_sem_estoque">Produtos sem Estoque</option>
+                <option value="produtos_com_estoque">Produtos com Estoque</option>
+            </select>
+        </div>
+        <div class="form-group periodo-select d-none">
+            <label for="periodo">Período</label>
+            <select name="periodo" id="periodo" class="form-control" required>
+                <option value="diario">Diário</option>
+                <option value="semanal">Semanal</option>
+                <option value="mensal">Mensal</option>
+            </select>
+        </div>
+        <div class="form-group cliente-select d-none">
+            <label for="cliente">Cliente</label>
+            <select name="cliente_id" id="cliente_id" class="form-control">
+                <option value="">Todos os Clientes</option>
+                @foreach($clientes as $cliente)
+                <option value="{{ $cliente->id }}">{{ $cliente->nome }}</option>
+                @endforeach
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Gerar Relatório</button>
+    </form>
+
+
     <h3 class="mt-5">Vendas Realizadas</h3>
     <table class="table">
         <thead>
@@ -184,8 +216,7 @@
             const vendaId = event.currentTarget.getAttribute('data-venda-id');
             const qrCodePath = event.currentTarget.getAttribute('data-qrcode-path');
 
-            // Atualizar o conteúdo da modal com as informações da venda
-            fetch(`/vendas/${vendaId}/detalhes`) // Ajuste a rota de acordo com sua necessidade
+            fetch(`/vendas/${vendaId}/detalhes`)
                 .then(response => response.json())
                 .then(data => {
                     const detalhesContainer = document.getElementById('venda-detalhes');
@@ -198,10 +229,26 @@
                 })
                 .catch(error => console.error('Erro ao carregar detalhes:', error));
 
-            // Atualizar o QR Code na modal
             const qrCodeImage = document.getElementById('qr-code');
-            qrCodeImage.src = qrCodePath; // Definindo o caminho do QR Code na tag <img>
+            qrCodeImage.src = qrCodePath;
         });
+    });
+
+    const tipoRelatorioSelect = document.getElementById('tipo_relatorio');
+    const clienteSelectDiv = document.querySelector('.cliente-select');
+    const periodoSelectDiv = document.querySelector('.periodo-select');
+
+    tipoRelatorioSelect.addEventListener('change', function() {
+        if (this.value === 'retiradas_cliente') {
+            clienteSelectDiv.classList.remove('d-none');
+        } else {
+            clienteSelectDiv.classList.add('d-none');
+        }
+        if (this.value === 'retiradas_periodo') {
+            periodoSelectDiv.classList.remove('d-none');
+        } else {
+            periodoSelectDiv.classList.add('d-none');
+        }
     });
 </script>
 
