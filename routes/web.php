@@ -2,15 +2,16 @@
 
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\VendaController;
-use App\Http\Controllers\RelatorioController;
+use App\Library\Authenticate;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('main');
-})->name('main');
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::get('/', [LoginController::class, 'index']);
+Route::post('/logout', [Authenticate::class, 'logout'])->name('logout');
 
 Route::get('/home', function () {
     return view('home');
