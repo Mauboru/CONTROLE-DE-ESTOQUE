@@ -1,28 +1,29 @@
-<!-- Barra de Navegação -->
-<nav class="nav-links">
-    <a href="{{ route('home') }}" class="nav-link active">Home</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ route('home') }}">
+            <img src="{{ asset('estoque-pronto.png') }}" alt="Logo" class="img-fluid" style="max-width: 50px;">
+        </a>
 
-    <!-- Dropdown do Usuário -->
-    <div class="dropdown">
-        <button class="btn btn-link dropdown-toggle d-flex align-items-center text-decoration-none text-dark" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            <!-- Exibir imagem de perfil e nome do usuário -->
-          
-        </button>
-
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-            <li>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-user me-2"></i> Perfil
-                </a>
-            </li>
-            <li>
-                <form method="POST" action="{{ route('logout') }}" class="dropdown-item">
-                    @csrf
-                    <button type="submit" class="btn btn-link text-decoration-none p-0 w-100 text-start">
-                        <i class="fas fa-sign-out-alt me-2"></i> Logout
-                    </button>
-                </form>
-            </li>
-        </ul>
+        <div class="d-flex ms-auto">
+            <div class="dropdown">
+                <button class="btn btn-link dropdown-toggle d-flex align-items-center text-dark" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{ asset('profile.jpeg') }}" alt="Avatar" class="rounded-circle" style="width: 35px; height: 35px; object-fit: cover;">
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                    <li class="px-3 py-2">
+                        <strong>{{ 'firstName'}} {{ 'lastName'}}</strong><br>
+                        <small class="text-muted">{{ 'usuario@email.com' }}</small>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <button class="dropdown-item text-danger">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </nav>
