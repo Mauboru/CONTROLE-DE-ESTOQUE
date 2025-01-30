@@ -14,7 +14,7 @@
             <div class="container-fluid d-flex flex-column align-items-center">
                 <img src="{{ asset('estoque-pronto.png') }}" alt="Logo" class="img-fluid mb-3" style="max-width: 220px; height: auto;">
                 <span class="fs-2 fs-md-1 fw-semibold text-secondary">CONTROLE DE ESTOQUE</span>
-                <a href="{{ route('home') }}" class="btn btn-primary btn-lg">LogIn</a>
+                <a href="{{ route('google.login') }}" class="btn btn-primary btn-lg">LogIn</a>
             </div>
         </nav>
     </div>

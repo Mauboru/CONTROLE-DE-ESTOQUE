@@ -11,16 +11,19 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                     <li class="px-3 py-2">
-                        <strong>{{ 'firstName'}} {{ 'lastName'}}</strong><br>
-                        <small class="text-muted">{{ 'usuario@email.com' }}</small>
+                        <strong>{{ Auth::user()->name}}</strong><br>
+                        <small class="text-muted">{{ Auth::user()->email}}</small>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
                     <li>
-                        <button class="dropdown-item text-danger">
-                            <i class="fas fa-sign-out-alt me-2"></i> Logout
-                        </button>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="dropdown-item text-danger">
+                                <i class="fas fa-sign-out-alt me-2"></i> Logout
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </div>
