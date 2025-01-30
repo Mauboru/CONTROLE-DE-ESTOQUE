@@ -6,8 +6,14 @@
 
         <div class="d-flex ms-auto">
             <div class="dropdown">
+                @php
+                    $userId = auth()->user()->id;
+                    $imageId = (($userId - 1) % 10) + 1; 
+                    $imagePath = asset("profiles/image{$imageId}.png"); 
+                @endphp
+
                 <button class="btn btn-link dropdown-toggle d-flex align-items-center text-dark" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="{{ asset('profile.jpeg') }}" alt="Avatar" class="rounded-circle" style="width: 35px; height: 35px; object-fit: cover;">
+                    <img src="{{ $imagePath }}" alt="Avatar" class="rounded-circle" style="width: 35px; height: 35px; object-fit: cover;">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                     <li class="px-3 py-2">

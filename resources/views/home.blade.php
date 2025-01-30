@@ -10,84 +10,56 @@
     </span>
 </div>
 
-<!-- Cards Section -->
 <div class="container my-4">
     <div class="row justify-content-center">
-
-        <!-- Card 1 -->
-        <div class="col-md-4">
+        <div class="col-md-2">
             <a href="{{ route('clientes.index') }}" class="text-decoration-none">
                 <div class="card card-hover">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmN0sYhMXV6OCpe_vgSIY1Fwm8rJepE6F0-w&s" class="card-img-top custom-img" alt="Smart-Harpia">
-                    <div class="card-body text-center">
-                        <h5 class="card-title custom-title">Clientes</h5>
-                        <p class="card-text custom-description">Área para gerenciar seus clientes!</p>
-                    </div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/3649/3649789.png" class="card-img-top custom-img">
+                    <h4 class="custom-title">Clientes</h4>
                 </div>
             </a>
         </div>
-
-        <!-- Card 2 -->
-        <div class="col-md-4">
+        <div class="col-md-2">
             <a href="{{ route('categorias.index') }}" class="text-decoration-none">
                 <div class="card card-hover">
-                    <img src="https://static6.depositphotos.com/1112859/621/i/450/depositphotos_6219942-stock-photo-search-of-data-isolated-3d.jpg" class="card-img-top custom-img" alt="Smart-Harpia">
-                    <div class="card-body text-center">
-                        <h5 class="card-title custom-title">Categorias</h5>
-                        <p class="card-text custom-description">Área para gereciar suas categorias!</p>
-                    </div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/17776/17776149.png" class="card-img-top custom-img">
+                    <h4 class="custom-title">Categorias</h4>
                 </div>
             </a>
         </div>
-
-        <!-- Card 3 -->
-        <div class="col-md-4">
+        <div class="col-md-2">
             <a href="{{ route('unidades.index') }}" class="text-decoration-none">
                 <div class="card card-hover">
-                    <img src="https://media.istockphoto.com/id/1222200861/pt/foto/house-renovation-unrecognizable-repairman-holding-tape-measure-on-blue-background-closeup.jpg?s=612x612&w=0&k=20&c=clXGXowqnZZdGGYU1yqX7sM9b5rgkAl_WSSHF9w51JA=" class="card-img-top custom-img" alt="Smart-Harpia">
-                    <div class="card-body text-center">
-                        <h5 class="card-title custom-title">Unidade de Medida</h5>
-                        <p class="card-text custom-description">Área para gereciar suas unidades de medidas!</p>
-                    </div>
+                    <img src="   https://cdn-icons-png.flaticon.com/512/2738/2738624.png " class="card-img-top custom-img">
+                    <h4 class="custom-title">Unidades</h4>
                 </div>
             </a>
         </div>
-
-        <!-- Card 4 -->
-        <div class="col-md-4">
+        <div class="col-md-2">
             <a href="{{ route('produtos.index') }}" class="text-decoration-none">
                 <div class="card card-hover">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYLZEMx_c8gzUmXmzeFRWW1Sac_5D6TTULmA&s" class="card-img-top custom-img" alt="Smart-Harpia">
-                    <div class="card-body text-center">
-                        <h5 class="card-title custom-title">Produtos</h5>
-                        <p class="card-text custom-description">Área para gereciar produtos!</p>
-                    </div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/10951/10951869.png" class="card-img-top custom-img">
+                    <h4 class="custom-title">Produtos</h4>
                 </div>
             </a>
         </div>
-
-        <!-- Card 4 -->
-        <div class="col-md-4">
+        <div class="col-md-2">
             <a href="{{ route('vendas.index') }}" class="text-decoration-none">
                 <div class="card card-hover">
-                    <img src="https://cdn-icons-png.flaticon.com/512/6203/6203085.png" class="card-img-top custom-img" alt="Vendas">
-                    <div class="card-body text-center">
-                        <h5 class="card-title custom-title">Vendas</h5>
-                        <p class="card-text custom-description">Área para compras!</p>
-                    </div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/1374/1374072.png" class="card-img-top custom-img">
+                    <h4 class="custom-title">Vendas</h4>
                 </div>
             </a>
         </div>
     </div>
 </div>
 
-<!-- STYLE -->
 <style>
-    .custom-img {
-        height: 200px;
-        object-fit: cover;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
+    .card-hover {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        border-radius: 8px;
+        overflow: hidden;
     }
 
     .custom-title {
@@ -95,17 +67,7 @@
         font-weight: bold;
         color: #007bff;
         margin-bottom: 10px;
-    }
-
-    .custom-description {
-        font-size: 1rem;
-        color: #555;
-    }
-
-    .card-hover {
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        border-radius: 8px;
-        overflow: hidden;
+        text-align: center;
     }
 
     .card-hover:hover {
