@@ -33,7 +33,8 @@
         </button>
     </form>
 
-    <table class="table table-striped table-hover">
+    <!-- Tabela de Categorias -->
+    <table class="table table-striped table-hover text-center">
         <thead class="table-light">
             <tr>
                 <th>Nome</th>
@@ -253,8 +254,8 @@
 
             const formEdit = document.getElementById('formEditarCliente');
             formEdit.action = `/clientes/${cliente.id}`;
+        });
     });
-});
 </script>
 
 @endsection
