@@ -6,10 +6,8 @@ use App\Models\Unidade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class UnidadeController extends Controller
-{
-    public function index(Request $request)
-    {
+class UnidadeController extends Controller {
+    public function index(Request $request) {
         $query = Unidade::query();
 
         if ($request->filled('abreviatura')) {
@@ -20,8 +18,7 @@ class UnidadeController extends Controller
         return view('unidades.index', compact('unidades'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
             'abreviatura' => 'required|max:10|unique:unidades',
             'descricao' => 'required|max:255',
@@ -39,8 +36,7 @@ class UnidadeController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $unidade = Unidade::findOrFail($id);
 
         $request->validate([
@@ -60,11 +56,13 @@ class UnidadeController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $unidade = Unidade::findOrFail($id);
-        $unidade->delete();
-
-        return redirect()->route('unidades.index')->with('success', 'Unidade excluída com sucesso!');
+        try {
+            $unidade->delete();
+            return redirect()->route('unidades.index')->with('success', 'Unidade excluída com sucesso!');
+        } catch (\Exception $e){
+            return redirect()->route('clientes.index')->with('error', 'Erro ao excluir unidade: ' . $e->getMessage());
+        }
     }
 }

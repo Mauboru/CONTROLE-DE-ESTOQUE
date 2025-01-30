@@ -12,16 +12,14 @@ use App\Exports\ProdutosExport;
 use Carbon\Carbon;
 
 class ProdutoController extends Controller {
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $produtos = Produto::all();
         $categorias = Categoria::all();
         $unidades = Unidade::all();
         return view('produtos.index', compact('produtos', 'categorias', 'unidades'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
             'nome' => 'required|string|max:255',
             'categoria_id' => 'required|exists:categorias,id',
@@ -47,14 +45,11 @@ class ProdutoController extends Controller {
         if ($request->hasFile('imagem')) {
             $produto->salvarImagem($request->file('imagem'));
         }
-
         $produto->save();
-
         return redirect()->route('produtos.index')->with('success', 'Produto cadastrado com sucesso.');
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $request->validate([
             'nome' => 'required|string|max:255',
             'categoria_id' => 'required|exists:categorias,id',
@@ -84,21 +79,22 @@ class ProdutoController extends Controller {
         return redirect()->route('produtos.index')->with('success', 'Produto atualizado com sucesso.');
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $produto = Produto::findOrFail($id);
-        $produto->delete();
-
-        return redirect()->route('produtos.index')->with('success', 'Produto excluído com sucesso.');
+        try {
+            $produto->delete();
+            return redirect()->route('produtos.index')->with('success', 'Produto excluído com sucesso.');
+        } catch (\Exception $e) {
+            return redirect()->route('produtos.index')->with('error', 'Erro ao excluir produto: ' . $e->getMessage());
+        }
+        
     }
 
-    public function gerarRelatorio()
-    {
+    public function gerarRelatorio() {
         return Excel::download(new ProdutosExport, 'produtos.xlsx');
     }
 
-    public function darBaixaNoEstoque(Request $request, $id)
-    {
+    public function darBaixaNoEstoque(Request $request, $id) {
         $request->validate([
             'quantidade' => 'required|integer|min:1',
             'motivo' => 'required|string|max:255',

@@ -176,10 +176,6 @@
             @endforeach
         </tbody>
     </table>
-
-    <!-- Paginação -->
-    {{ $vendas->links() }}
-
 </div>
 
 <script>
