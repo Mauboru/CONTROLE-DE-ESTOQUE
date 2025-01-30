@@ -31,7 +31,7 @@
             @endforeach
             @empty
             <tr>
-                <td colspan="7">Nenhuma retirada registrada.</td>
+                <td colspan="7" class="text-center fs-6 text-break align-middle">Nenhuma retirada registrada.</td>
             </tr>
             @endforelse
         </tbody>

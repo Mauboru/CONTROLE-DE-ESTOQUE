@@ -132,7 +132,7 @@
                 <div class="modal-body">
                     <div id="venda-detalhes">
                     </div>
-                    <div class="mt-3 text-center" id="qr-code-container">
+                    <div class="mt-3" id="qr-code-container">
                         <h5>QR Code da Venda</h5>
                         <img src="" id="qr-code" alt="QR Code" style="width: 200px;" />
                     </div>

@@ -13,6 +13,7 @@ class CreateVendasTable extends Migration
             $table->foreignId('cliente_id')->constrained()->onDelete('cascade');
             $table->decimal('valor_total', 10, 2);
             $table->timestamp('data_venda');
+            $table->string('qr_code_path')->nullable();
             $table->timestamps();
         });
     }
