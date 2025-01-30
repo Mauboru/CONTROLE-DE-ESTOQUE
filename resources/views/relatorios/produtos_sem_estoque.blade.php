@@ -1,25 +1,33 @@
 @extends('index')
 
 @section('conteudo')
-<h3>Relatório de Produtos sem Estoque</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nome do Produto</th>
-            <th>Unidade</th>
-            <th>Categoria</th>
-            <th>Data de Saída (Estoque Finalizado)</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($produtos as $produto)
-        <tr>
-            <td>{{ $produto->nome }}</td> <!-- Nome do Produto -->
-            <td>{{ $produto->unidade }}</td> <!-- Unidade do Produto -->
-            <td>{{ $produto->categoria }}</td> <!-- Categoria do Produto -->
-            <td>{{ $produto->updated_at }}</td> <!-- Data da última atualização -->
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-@endsection
+<div class="container mt-4">
+    <h3 class="mb-4 text-center">Relatório de Produtos sem Estoque</h3>
+
+    <table class="table table-striped table-bordered table-hover table-sm">
+        <thead class="thead-dark">
+            <tr class="text-center align-middle">
+                <th>Nome do Produto</th>
+                <th>Unidade</th>
+                <th>Categoria</th>
+                <th>Data de Saída (Estoque Finalizado)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($produtos as $produto)
+            @foreach($produtos as $produto)
+            <tr class="text-center fs-6 text-break align-middle">
+                <td>{{ $produto->nome }}</td>
+                <td>{{ $produto->unidade }}</td>
+                <td>{{ $produto->categoria }}</td>
+                <td>{{ $produto->updated_at }}</td>
+            </tr>
+            @endforeach
+            @empty
+            <tr>
+                <td colspan="7" class="text-center fs-6 text-break align-middle">Nenhum produto sem estoque.</td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+    @endsection
