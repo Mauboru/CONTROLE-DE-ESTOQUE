@@ -62,7 +62,6 @@ class CategoriaController extends Controller {
 
     public function destroy($id) {
         $categoria = Categoria::findOrFail($id);
-
         try {
             $categoria->delete();
             return redirect()->route('categorias.index')->with('success', 'Categoria excluída com sucesso!');

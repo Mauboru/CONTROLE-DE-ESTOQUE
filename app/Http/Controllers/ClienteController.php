@@ -81,8 +81,11 @@ class ClienteController extends Controller {
 
     public function destroy($id) {
         $cliente = Cliente::findOrFail($id);
-        $cliente->delete();
-
-        return redirect()->route('clientes.index')->with('success', 'Cliente excluído com sucesso!');
+        try {
+            $cliente->delete();
+            return redirect()->route('clientes.index')->with('success', 'Cliente excluído com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->route('clientes.index')->with('error', 'Erro ao excluir clientes: ' . $e->getMessage());
+        }
     }
 }

@@ -126,7 +126,6 @@
     document.querySelectorAll('.categoria-row').forEach(row => {
         row.addEventListener('click', function() {
             const categoria = JSON.parse(this.dataset.categoria); 
-            console.log(categoria);
             document.getElementById('editNome').value = categoria.nome;
             document.getElementById('editDescricao').value = categoria.descricao;
 
