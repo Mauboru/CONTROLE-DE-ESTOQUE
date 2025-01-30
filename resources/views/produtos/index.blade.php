@@ -164,7 +164,6 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <img id="imagemAtual" src="" alt="Imagem atual" width="130" height="100" class="mb-2" />
                             <input type="file" class="form-control" name="imagem" id="editImagem">
                         </div>
                         <div class="mb-3">
@@ -197,7 +196,7 @@
 <script>
     document.querySelectorAll('.produto-row').forEach(row => {
         row.addEventListener('click', function() {
-            const produto = JSON.parse(this.dataset.produto); 
+            const produto = JSON.parse(this.dataset.produto);
             document.getElementById('editNome').value = produto.nome;
             document.getElementById('editCategoria').value = produto.categoria_id;
             document.getElementById('editUnidade').value = produto.unidade_de_medida_id;

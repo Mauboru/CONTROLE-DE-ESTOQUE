@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm" style="background-color: #e3f2fd;">
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ route('home') }}">
             <img src="{{ asset('estoque-pronto.png') }}" alt="Logo" class="img-fluid" style="max-width: 50px;">
@@ -7,9 +7,9 @@
         <div class="d-flex ms-auto">
             <div class="dropdown">
                 @php
-                    $userId = auth()->user()->id;
-                    $imageId = (($userId - 1) % 10) + 1; 
-                    $imagePath = asset("profiles/image{$imageId}.png"); 
+                $userId = auth()->user()->id;
+                $imageId = (($userId - 1) % 10) + 1;
+                $imagePath = asset("profiles/image{$imageId}.png");
                 @endphp
 
                 <button class="btn btn-link dropdown-toggle d-flex align-items-center text-dark" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">

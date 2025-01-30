@@ -11,9 +11,17 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class VendaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $vendas = Venda::with('cliente')->paginate(10);
+        $query = Venda::with('cliente');
+        if ($request->filled('nome')) {
+            $query->whereHas('cliente', function ($q) use ($request) {
+                $q->where('nome', 'like', '%' . $request->nome . '%');
+            });
+        }
+
+        $vendas = $query->paginate(10);
+
         $clientes = Cliente::all();
         $produtos = Produto::all();
 
@@ -59,7 +67,6 @@ class VendaController extends Controller
             });
 
             $venda->save();
-
             $qrData = [
                 'Venda ID' => $venda->id,
                 'Cliente' => $venda->cliente->nome,
@@ -72,7 +79,8 @@ class VendaController extends Controller
 
             $qrCodePath = 'qr_codes/venda_' . $venda->id . '.svg';
             QrCode::size(200)->format('svg')->generate(json_encode($qrData), public_path($qrCodePath));
-            session()->flash('qrCodePath', $qrCodePath);
+            $venda->qr_code_path = $qrCodePath;
+            $venda->save();
 
             DB::commit();
 
@@ -101,17 +109,21 @@ class VendaController extends Controller
 
     public function detalhes($id)
     {
-        $venda = Venda::with('cliente', 'produtos')->findOrFail($id);
+        $venda = Venda::with('cliente', 'produtos')->find($id);
 
-        $produtos = $venda->produtos->map(function ($produto) {
-            return $produto->nome . ' (Qtd: ' . $produto->pivot->quantidade . ')';
-        })->join(', ');
+        if (!$venda) {
+            return response()->json(['error' => 'Venda não encontrada'], 404);
+        }
+        $qrCodePath = session('qrCodePath');
 
         return response()->json([
             'cliente' => $venda->cliente->nome,
             'data_venda' => $venda->data_venda,
-            'valor_total' => 'R$ ' . number_format($venda->valor_total, 2, ',', '.'),
-            'produtos' => $produtos,
+            'valor_total' => number_format($venda->valor_total, 2, ',', '.'),
+            'produtos' => $venda->produtos->map(function ($produto) {
+                return $produto->nome . ' - Quantidade: ' . $produto->pivot->quantidade;
+            })->join(', '),
+            'qrCodePath' => asset($venda->qr_code_path)
         ]);
     }
 
