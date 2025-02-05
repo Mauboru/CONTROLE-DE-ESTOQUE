@@ -139,7 +139,7 @@
     <div class="modal fade" id="modalEditarProduto" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="formEditarProduto" action="{{ isset($produto) ? route('produtos.update', $produto->id) : '#' }}" method="POST">
+                <form id="formEditarProduto" action="{{ isset($produto) ? route('produtos.update', $produto->id) : '#' }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">

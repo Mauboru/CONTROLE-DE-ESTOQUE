@@ -56,7 +56,6 @@ class ProdutoController extends Controller {
             'nome' => 'required|string|max:255',
             'categoria_id' => 'required|exists:categorias,id',
             'unidade_de_medida_id' => 'required|exists:unidades,id',
-            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'quantidade' => 'required|integer',
             'estoque' => 'required|integer',
             'descricao' => 'required|string',
