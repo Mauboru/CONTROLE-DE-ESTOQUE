@@ -8,21 +8,19 @@
         <thead class="thead-dark">
             <tr class="text-center align-middle">
                 <th>Nome do Produto</th>
-                <th>Unidade</th>
+                <th>Estoque</th>
                 <th>Categoria</th>
                 <th>Data de Saída (Estoque Finalizado)</th>
             </tr>
         </thead>
         <tbody>
             @forelse($produtos as $produto)
-            @foreach($produtos as $produto)
             <tr class="text-center fs-6 text-break align-middle">
                 <td>{{ $produto->nome }}</td>
-                <td>{{ $produto->pivot->quantidade ?? '0' }}</td>
+                <td>{{ $produto->estoque ?? '0' }}</td>
                 <td>{{ $produto->categoria->nome ?? '-' }}</td>
                 <td>{{ $produto->updated_at }}</td>
             </tr>
-            @endforeach
             @empty
             <tr>
                 <td colspan="7" class="text-center fs-6 text-break align-middle">Nenhum produto sem estoque.</td>

@@ -154,7 +154,6 @@ class VendaController extends Controller
         $vendas = Venda::where('data_venda', '>=', $dataInicio)
             ->with('cliente', 'produtos')
             ->get();
-
         return view('relatorios.retiradas_por_periodo', compact('vendas'));
     }
 
@@ -162,13 +161,13 @@ class VendaController extends Controller
     {
         switch ($periodo) {
             case 'diario':
-                return now()->startOfDay();
+                return now()->subDay()->startOfDay();
             case 'semanal':
                 return now()->startOfWeek();
             case 'mensal':
                 return now()->startOfMonth();
             default:
-                return now()->startOfDay();
+                return now()->subDay()->startOfDay();
         }
     }
 
