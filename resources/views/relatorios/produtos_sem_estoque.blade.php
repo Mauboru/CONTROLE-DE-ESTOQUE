@@ -18,8 +18,8 @@
             @foreach($produtos as $produto)
             <tr class="text-center fs-6 text-break align-middle">
                 <td>{{ $produto->nome }}</td>
-                <td>{{ $produto->unidade }}</td>
-                <td>{{ $produto->categoria }}</td>
+                <td>{{ $produto->pivot->quantidade ?? '0' }}</td>
+                <td>{{ $produto->categoria->nome ?? '-' }}</td>
                 <td>{{ $produto->updated_at }}</td>
             </tr>
             @endforeach

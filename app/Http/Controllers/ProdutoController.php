@@ -9,6 +9,7 @@ use App\Models\MovimentacaoEstoque;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProdutosExport;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class ProdutoController extends Controller {
@@ -16,6 +17,7 @@ class ProdutoController extends Controller {
         $produtos = Produto::all();
         $categorias = Categoria::all();
         $unidades = Unidade::all();
+        
         return view('produtos.index', compact('produtos', 'categorias', 'unidades'));
     }
 
@@ -60,7 +62,7 @@ class ProdutoController extends Controller {
             'descricao' => 'required|string',
             'valor_unitario' => 'required|numeric',
         ]);
-
+    
         $produto = Produto::findOrFail($id);
         $produto->nome = $request->nome;
         $produto->categoria_id = $request->categoria_id;
@@ -69,15 +71,15 @@ class ProdutoController extends Controller {
         $produto->estoque = $request->estoque;
         $produto->descricao = $request->descricao;
         $produto->valor_unitario = $request->valor_unitario;
-
+    
         if ($request->hasFile('imagem')) {
             $produto->salvarImagem($request->file('imagem'));
         }
-
+    
         $produto->save();
-
+    
         return redirect()->route('produtos.index')->with('success', 'Produto atualizado com sucesso.');
-    }
+    }    
 
     public function destroy($id) {
         $produto = Produto::findOrFail($id);
@@ -87,11 +89,6 @@ class ProdutoController extends Controller {
         } catch (\Exception $e) {
             return redirect()->route('produtos.index')->with('error', 'Erro ao excluir produto: ' . $e->getMessage());
         }
-        
-    }
-
-    public function gerarRelatorio() {
-        return Excel::download(new ProdutosExport, 'produtos.xlsx');
     }
 
     public function darBaixaNoEstoque(Request $request, $id) {

@@ -17,23 +17,23 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($vendas as $venda)
-            @foreach($venda->produtos as $produto)
+        @forelse($vendas as $venda)
+        @foreach($venda->produtos as $produto)
             <tr class="text-center fs-6 text-break align-middle">
                 <td>{{ $venda->cliente->nome ?? 'Cliente não identificado' }}</td>
                 <td>{{ $produto->nome ?? 'Produto não identificado' }}</td>
-                <td>{{ $produto->unidade ?? '-' }}</td>
-                <td>{{ $produto->categoria ?? '-' }}</td>
+                <td>{{ $produto->unidade->abreviatura ?? '-' }}</td>
+                <td>{{ $produto->categoria->nome ?? '-' }}</td>
                 <td>{{ $produto->pivot->quantidade ?? '0' }}</td>
                 <td>{{ \Carbon\Carbon::parse($venda->data_venda)->format('d/m/Y H:i') }}</td>
                 <td>R$ {{ number_format($produto->pivot->valor_total ?? 0, 2, ',', '.') }}</td>
             </tr>
-            @endforeach
-            @empty
-            <tr>
-                <td colspan="7" class="text-center fs-6 text-break align-middle">Nenhuma retirada registrada.</td>
-            </tr>
-            @endforelse
+        @endforeach
+    @empty
+        <tr>
+            <td colspan="7" class="text-center fs-6 text-break align-middle">Nenhuma retirada registrada.</td>
+        </tr>
+    @endforelse
         </tbody>
     </table>
 </div>

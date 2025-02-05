@@ -47,8 +47,11 @@
             </tr>
         </thead>
         <tbody>
+        @if ($produtos->isEmpty())
+            <td colspan="7" class="text-center fs-6 text-break align-middle">Nenhum produto cadastrado.</td>
+        @else
             @foreach($produtos as $produto)
-            <tr class="produto-row" data-id="{{ $produto->id }}" data-produto="{{ json_encode($produto) }}">
+            <tr class="produto-row" data-id="{{ $produto->id }}" data-produto="{{ json_encode(['id' => $produto->id, 'nome' => $produto->nome, 'categoria_id' => $produto->categoria_id, 'unidade_de_medida_id' => $produto->unidade_de_medida_id, 'quantidade' => $produto->quantidade, 'estoque' => $produto->estoque, 'descricao' => $produto->descricao, 'valor_unitario' => $produto->valor_unitario, 'imagem' => asset('storage/' . $produto->imagem)]) }}">
                 <td><img src="{{ asset('storage/' . $produto->imagem) }}" alt="{{ $produto->nome }}" width="75" height="50"></td>
                 <td>{{ $produto->nome }}</td>
                 <td>{{ $produto->categoria->nome }}</td>
@@ -67,6 +70,7 @@
                 </td>
             </tr>
             @endforeach
+        @endif
         </tbody>
     </table>
 
@@ -135,7 +139,7 @@
     <div class="modal fade" id="modalEditarProduto" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('produtos.update', 'produto_id') }}" method="POST" enctype="multipart/form-data" id="formEditarProduto">
+                <form id="formEditarProduto" action="{{ isset($produto) ? route('produtos.update', $produto->id) : '#' }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
@@ -204,13 +208,11 @@
             document.getElementById('editEstoque').value = produto.estoque;
             document.getElementById('editDescricao').value = produto.descricao;
             document.getElementById('editValorUnitario').value = produto.valor_unitario;
-            const imagemUrl = produto.imagem ? `/storage/${produto.imagem}` : '/path/to/default/image.png';
-            document.getElementById('imagemAtual').src = imagemUrl;
 
-            const formEdit = document.getElementById('formEditarProduto');
-            formEdit.action = `/produtos/${produto.id}`;
+            document.getElementById('formEditarProduto').action = `/produtos/${produto.id}`;
         });
     });
+
 </script>
 
 @endsection
