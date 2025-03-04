@@ -101,19 +101,19 @@
                         </div>
                         <div class="mb-3">
                             <label for="rua" class="form-label">Rua</label>
-                            <input type="text" class="form-control" name="rua" id="rua" required readonly>
+                            <input type="text" class="form-control" name="rua" id="rua" required>
                         </div>
                         <div class="mb-3">
                             <label for="bairro" class="form-label">Bairro</label>
-                            <input type="text" class="form-control" name="bairro" id="bairro" required readonly>
+                            <input type="text" class="form-control" name="bairro" id="bairro" required>
                         </div>
                         <div class="mb-3">
                             <label for="cidade" class="form-label">Cidade</label>
-                            <input type="text" class="form-control" name="cidade" id="cidade" required readonly>
+                            <input type="text" class="form-control" name="cidade" id="cidade" required>
                         </div>
                         <div class="mb-3">
                             <label for="estado" class="form-label">Estado</label>
-                            <input type="text" class="form-control" name="estado" id="estado" required readonly>
+                            <input type="text" class="form-control" name="estado" id="estado" required >
                         </div>
                         <div class="mb-3">
                             <label for="numero" class="form-label">Número</label>
@@ -167,19 +167,19 @@
                         </div>
                         <div class="mb-3">
                             <label for="rua" class="form-label">Rua</label>
-                            <input type="text" class="form-control" name="rua" id="editRua" required readonly>
+                            <input type="text" class="form-control" name="rua" id="editRua" required >
                         </div>
                         <div class="mb-3">
                             <label for="bairro" class="form-label">Bairro</label>
-                            <input type="text" class="form-control" name="bairro" id="editBairro" required readonly>
+                            <input type="text" class="form-control" name="bairro" id="editBairro" required >
                         </div>
                         <div class="mb-3">
                             <label for="cidade" class="form-label">Cidade</label>
-                            <input type="text" class="form-control" name="cidade" id="editCidade" required readonly>
+                            <input type="text" class="form-control" name="cidade" id="editCidade" required >
                         </div>
                         <div class="mb-3">
                             <label for="estado" class="form-label">Estado</label>
-                            <input type="text" class="form-control" name="estado" id="editEstado" required readonly>
+                            <input type="text" class="form-control" name="estado" id="editEstado" required >
                         </div>
                         <div class="mb-3">
                             <label for="numero" class="form-label">Número</label>
