@@ -1,7 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ route('home') }}">
-            <img src="{{ asset('estoque-pronto.png') }}" alt="Logo" class="img-fluid" style="max-width: 50px;">
+        @if (!Route::is('home'))
+            <img src="{{ asset('arrow-back.png') }}" alt="Logo" class="img-fluid" style="max-width: 50px;">
+        @endif
         </a>
 
         <div class="d-flex ms-auto">
