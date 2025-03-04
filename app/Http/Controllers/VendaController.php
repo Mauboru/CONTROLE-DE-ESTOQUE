@@ -41,8 +41,8 @@ class VendaController extends Controller {
                 $produtoModel = Produto::findOrFail($produto['id']);
 
                 if ($produtoModel->estoque < $produto['quantidade']) {
-                    throw new \Exception("Estoque insuficiente para o produto: {$produtoModel->nome}");
-                }
+                    throw new \Exception('Produto sem estoque!');
+                }                
 
                 $valorUnitario = $produtoModel->valor_unitario;
 
