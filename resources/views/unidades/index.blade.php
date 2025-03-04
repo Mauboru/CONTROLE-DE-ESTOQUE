@@ -43,7 +43,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($unidades as $unidade)
+            @forelse($unidades as $unidade)
                 <tr class="unidade-row" data-id="{{ $unidade->id }}" data-unidade="{{ json_encode($unidade) }}">
                     <td>{{ $unidade->abreviatura }}</td>
                     <td>{{ $unidade->descricao }}</td>
@@ -58,7 +58,11 @@
                         </form>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="6" class="text-center text-muted">Nenhuma unidade encontrada.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 

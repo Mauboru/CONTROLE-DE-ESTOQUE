@@ -46,25 +46,29 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($clientes as $cliente)
-            <tr class="client-row" data-id="{{ $cliente->id }}" data-cliente="{{ json_encode($cliente) }}">
-                <td>{{ $cliente->nome }}</td>
-                <td>{{ $cliente->email }}</td>
-                <td>{{ $cliente->telefone }}</td>
-                <td>{{ $cliente->cpf }}</td>
-                <td>{{ $cliente->endereco->cep }}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditarCliente">
-                        Editar
-                    </button>
-                    <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
+            @forelse($clientes as $cliente)
+                <tr class="client-row" data-id="{{ $cliente->id }}" data-cliente="{{ json_encode($cliente) }}">
+                    <td>{{ $cliente->nome }}</td>
+                    <td>{{ $cliente->email }}</td>
+                    <td>{{ $cliente->telefone }}</td>
+                    <td>{{ $cliente->cpf }}</td>
+                    <td>{{ $cliente->endereco->cep }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditarCliente">
+                            Editar
+                        </button>
+                        <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="6" class="text-center text-muted">Nenhum cliente encontrado.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 

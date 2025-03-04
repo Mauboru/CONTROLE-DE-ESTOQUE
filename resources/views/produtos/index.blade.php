@@ -50,7 +50,7 @@
         @if ($produtos->isEmpty())
             <td colspan="7" class="text-center fs-6 text-break align-middle">Nenhum produto cadastrado.</td>
         @else
-            @foreach($produtos as $produto)
+            @forelse($produtos as $produto)
             <tr class="produto-row" data-id="{{ $produto->id }}" data-produto="{{ json_encode(['id' => $produto->id, 'nome' => $produto->nome, 'categoria_id' => $produto->categoria_id, 'unidade_de_medida_id' => $produto->unidade_de_medida_id, 'quantidade' => $produto->quantidade, 'estoque' => $produto->estoque, 'descricao' => $produto->descricao, 'valor_unitario' => $produto->valor_unitario, 'imagem' => asset('storage/' . $produto->imagem)]) }}">
                 <td><img src="{{ asset('storage/' . $produto->imagem) }}" alt="{{ $produto->nome }}" width="75" height="50"></td>
                 <td>{{ $produto->nome }}</td>
@@ -69,7 +69,11 @@
                     </form>
                 </td>
             </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="6" class="text-center text-muted">Nenhum produto encontrado.</td>
+                </tr>
+            @endforelse
         @endif
         </tbody>
     </table>

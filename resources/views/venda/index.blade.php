@@ -49,7 +49,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($vendas as $venda)
+            @forelse($vendas as $venda)
             <tr class="venda-row" data-id="{{ $venda->id }}" data-venda="{{ json_encode($venda) }}">
                 <td>{{ $venda->cliente->nome }}</td>
                 <td>{{ $venda->data_venda }}</td>
@@ -69,7 +69,11 @@
                     </form>
                 </td>
             </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="6" class="text-center text-muted">Nenhuma venda encontrada.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 

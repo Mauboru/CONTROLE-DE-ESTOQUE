@@ -43,7 +43,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($categorias as $categoria)
+            @forelse($categorias as $categoria)
                 <tr class="categoria-row" data-id="{{ $categoria->id }}" data-categoria="{{ json_encode($categoria) }}">
                     <td>{{ $categoria->nome }}</td>
                     <td>{{ $categoria->descricao }}</td>
@@ -58,7 +58,11 @@
                         </form>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="6" class="text-center text-muted">Nenhuma categoria encontrada.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 
