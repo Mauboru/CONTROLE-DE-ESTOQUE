@@ -44,5 +44,4 @@ class Produto extends Model
             ->withPivot('quantidade', 'valor_unitario', 'valor_total')
             ->withTimestamps();
     }
-
 }

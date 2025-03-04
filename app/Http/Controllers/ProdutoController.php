@@ -33,13 +33,16 @@ class ProdutoController extends Controller {
             'valor_unitario' => 'required|numeric',
         ]);
     
-        $dados['caminho'] = 'produtos/' . uniqid() . '.jpg';
+        $imagemPath = $request->file('imagem')->store('produtos', 'public');
+        $dados['caminho'] = $imagemPath;
     
         $produto = Produto::create($dados);
     
         if ($request->hasFile('imagem')) {
             $produto->salvarImagem($request->file('imagem'));
         }
+
+        dd($produto->imagem);
     
         return redirect()->route('produtos.index')->with('success', 'Produto cadastrado com sucesso.');
     }    
