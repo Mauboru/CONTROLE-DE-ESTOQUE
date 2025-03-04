@@ -19,7 +19,7 @@
                 <td>{{ $produto->nome }}</td>
                 <td>{{ $produto->estoque ?? '0' }}</td>
                 <td>{{ $produto->categoria->nome ?? '-' }}</td>
-                <td>{{ $produto->updated_at }}</td>
+                <td>{{ $produto->updated_at->setTimezone('America/Sao_Paulo')->format('d/m/Y H:i:s') }}</td>
             </tr>
             @empty
             <tr>

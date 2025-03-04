@@ -9,27 +9,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
-class VendaController extends Controller
-{
-    public function index(Request $request)
-    {
+class VendaController extends Controller {
+    public function index(Request $request) {
         $query = Venda::with('cliente');
         if ($request->filled('nome')) {
             $query->whereHas('cliente', function ($q) use ($request) {
                 $q->where('nome', 'like', '%' . $request->nome . '%');
             });
         }
-
         $vendas = $query->paginate(10);
-
         $clientes = Cliente::all();
         $produtos = Produto::all();
 
         return view('venda.index', compact('vendas', 'clientes', 'produtos'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         DB::beginTransaction();
 
         try {
@@ -91,8 +86,7 @@ class VendaController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id) {
         DB::beginTransaction();
 
         try {
@@ -107,8 +101,7 @@ class VendaController extends Controller
         }
     }
 
-    public function detalhes($id)
-    {
+    public function detalhes($id) {
         $venda = Venda::with('cliente', 'produtos')->find($id);
 
         if (!$venda) {
@@ -127,8 +120,7 @@ class VendaController extends Controller
         ]);
     }
 
-    public function relatorios(Request $request)
-    {
+    public function relatorios(Request $request) {
         $tipoRelatorio = $request->input('tipo_relatorio');
         $periodo = $request->input('periodo');
         $cliente = $request->input('cliente_id');
@@ -147,8 +139,7 @@ class VendaController extends Controller
         }
     }
 
-    private function relatorioRetiradasPorPeriodo($periodo)
-    {
+    private function relatorioRetiradasPorPeriodo($periodo) {
         $dataInicio = $this->getDataInicioPorPeriodo($periodo);
 
         $vendas = Venda::where('data_venda', '>=', $dataInicio)
@@ -157,8 +148,7 @@ class VendaController extends Controller
         return view('relatorios.retiradas_por_periodo', compact('vendas'));
     }
 
-    private function getDataInicioPorPeriodo($periodo)
-    {
+    private function getDataInicioPorPeriodo($periodo) {
         switch ($periodo) {
             case 'diario':
                 return now()->subDay()->startOfDay();
@@ -171,8 +161,7 @@ class VendaController extends Controller
         }
     }
 
-    private function relatorioRetiradasPorCliente($clienteId)
-    {
+    private function relatorioRetiradasPorCliente($clienteId) {
         $query = Venda::with('cliente', 'produtos');
 
         if ($clienteId) {
@@ -187,15 +176,13 @@ class VendaController extends Controller
         return view('relatorios.retiradas_por_cliente', compact('vendas', 'clientes'));
     }
 
-    private function relatorioProdutosSemEstoque()
-    {
+    private function relatorioProdutosSemEstoque() {
         $produtos = Produto::where('estoque', 0)->get();
 
         return view('relatorios.produtos_sem_estoque', compact('produtos'));
     }
 
-    private function relatorioProdutosComEstoque()
-    {
+    private function relatorioProdutosComEstoque() {
         $produtos = Produto::where('estoque', '>', 0)->get();
 
         return view('relatorios.produtos_com_estoque', compact('produtos'));
