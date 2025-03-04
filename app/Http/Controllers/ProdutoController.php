@@ -22,7 +22,7 @@ class ProdutoController extends Controller {
     }
 
     public function store(Request $request) {
-        $request->validate([
+        $dados = $request->validate([
             'nome' => 'required|string|max:255',
             'categoria_id' => 'required|exists:categorias,id',
             'unidade_de_medida_id' => 'required|exists:unidades,id',
@@ -32,24 +32,17 @@ class ProdutoController extends Controller {
             'descricao' => 'required|string',
             'valor_unitario' => 'required|numeric',
         ]);
-
-        $produto = new Produto();
-        $produto->nome = $request->nome;
-        $produto->categoria_id = $request->categoria_id;
-        $produto->unidade_de_medida_id = $request->unidade_de_medida_id;
-        $produto->quantidade = $request->quantidade;
-        $produto->estoque = $request->estoque;
-        $produto->descricao = $request->descricao;
-        $produto->valor_unitario = $request->valor_unitario;
-
-        $produto->caminho = 'produtos/' . uniqid() . '.jpg';
-
+    
+        $dados['caminho'] = 'produtos/' . uniqid() . '.jpg';
+    
+        $produto = Produto::create($dados);
+    
         if ($request->hasFile('imagem')) {
             $produto->salvarImagem($request->file('imagem'));
         }
-        $produto->save();
+    
         return redirect()->route('produtos.index')->with('success', 'Produto cadastrado com sucesso.');
-    }
+    }    
 
     public function update(Request $request, $id) {
         $request->validate([
