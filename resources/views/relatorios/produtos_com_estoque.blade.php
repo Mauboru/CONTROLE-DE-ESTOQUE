@@ -10,7 +10,7 @@
                 <th>Nome do Produto</th>
                 <th>Estoque</th>
                 <th>Categoria</th>
-                <th>Data de Saída (Estoque Finalizado)</th>
+                <th>Data de Saída</th>
             </tr>
         </thead>
         <tbody>

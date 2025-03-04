@@ -1,11 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ route('home') }}">
+    <a class="navbar-brand" href="javascript:history.back();">
         @if (!Route::is('home'))
-            <img src="{{ asset('arrow-back.png') }}" alt="Logo" class="img-fluid" style="max-width: 50px;">
+            <img src="{{ asset('arrow-back.png') }}" alt="Voltar" class="img-fluid" style="max-width: 50px;">
         @endif
-        </a>
-
+    </a>
         <div class="d-flex ms-auto">
             <div class="dropdown">
                 @php
