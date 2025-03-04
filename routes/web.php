@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('clientes', ClienteController::class);
     Route::get('/clientes/verify-email', [ClienteController::class, 'verifyEmail']);
+    Route::get('/clientes/{id}', [ClienteController::class, 'show'])->name('clientes.show');
 
     Route::resource('categorias', CategoriaController::class);
     Route::resource('unidades', UnidadeController::class);

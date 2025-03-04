@@ -18,6 +18,11 @@ class ClienteController extends Controller {
         return view('clientes.index', compact('clientes'));
     }
 
+    public function show($id) {
+        $cliente = Cliente::with('endereco')->findOrFail($id);
+        return response()->json($cliente);
+    }    
+
     public function store(Request $request) {
         $request->validate([
             'nome' => 'required|max:255',

@@ -54,6 +54,9 @@
                     <td>{{ $cliente->cpf }}</td>
                     <td>{{ $cliente->endereco->cep }}</td>
                     <td>
+                        <button class="btn btn-sm btn-info btn-visualizar" data-bs-toggle="modal" data-bs-target="#modalVisualizarCliente" data-id="{{ $cliente->id }}">
+                            Visualizar
+                        </button>
                         <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditarCliente">
                             Editar
                         </button>
@@ -202,6 +205,28 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal de Visu -->
+    <div class="modal fade" id="modalVisualizarCliente" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalhes do Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Nome:</strong> <span id="viewNome"></span></p>
+                    <p><strong>Email:</strong> <span id="viewEmail"></span></p>
+                    <p><strong>Telefone:</strong> <span id="viewTelefone"></span></p>
+                    <p><strong>CPF:</strong> <span id="viewCpf"></span></p>
+                    <p><strong>Endereço:</strong> <span id="viewEndereco"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -215,6 +240,25 @@
                     alert('O CPF deve conter exatamente 11 números.');
                 }
             });
+        });
+    });
+
+    document.querySelectorAll('.btn-visualizar').forEach(button => {
+        button.addEventListener('click', async function () {
+            const id = this.dataset.id;
+            try {
+                const response = await fetch(`/clientes/${id}`);
+                const cliente = await response.json();
+                
+                document.getElementById('viewNome').innerText = cliente.nome;
+                document.getElementById('viewEmail').innerText = cliente.email;
+                document.getElementById('viewTelefone').innerText = cliente.telefone;
+                document.getElementById('viewCpf').innerText = cliente.cpf;
+                document.getElementById('viewEndereco').innerText = `${cliente.endereco.rua}, ${cliente.endereco.numero}, ${cliente.endereco.bairro} - ${cliente.endereco.cidade}/${cliente.endereco.estado}, CEP: ${cliente.endereco.cep}`;
+            } catch (error) {
+                console.error('Erro ao buscar os dados do cliente:', error);
+                alert('Erro ao carregar os detalhes do cliente.');
+            }
         });
     });
 
