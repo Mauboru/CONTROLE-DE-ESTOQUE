@@ -10,7 +10,7 @@ class CreateVendasTable extends Migration
     {
         Schema::create('vendas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cliente_id')->constrained()->onDelete('cascade');
+            $table->foreignId('cliente_id');
             $table->decimal('valor_total', 10, 2);
             $table->timestamp('data_venda');
             $table->string('qr_code_path')->nullable();

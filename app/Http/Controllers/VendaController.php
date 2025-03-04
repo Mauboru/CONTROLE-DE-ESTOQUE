@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Venda;
 use App\Models\Produto;
+use App\Models\ProdutoVenda;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -88,11 +89,16 @@ class VendaController extends Controller {
 
     public function destroy($id) {
         DB::beginTransaction();
-
         try {
             $venda = Venda::findOrFail($id);
+            $produtosVenda = ProdutoVenda::where('venda_id', $id)->get();
+            foreach ($produtosVenda as $produtoVenda) {
+                $produto = Produto::find($produtoVenda->produto_id);
+                $produto->estoque += $produtoVenda->quantidade;
+                $produto->save();
+            }
+            ProdutoVenda::where('venda_id', $id)->delete();
             $venda->delete();
-
             DB::commit();
             return redirect()->route('vendas.index')->with('success', 'Venda excluída com sucesso!');
         } catch (\Exception $e) {

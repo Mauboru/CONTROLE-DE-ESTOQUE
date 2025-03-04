@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('enderecos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
+            $table->foreignId('cliente_id');
             $table->string('cep');
             $table->string('rua');
             $table->string('numero');
